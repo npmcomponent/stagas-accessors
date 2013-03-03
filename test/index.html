@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>accessors</title>
+    <link rel="stylesheet" href="../build/build.css">
+    <script src="http://localhost:3003/refresh.js"></script>
+  </head>
+  <body>
+    <script src="../build/build.js"></script>
+    <script>
+
+    function assert (expr, msg) {
+      if (!expr) throw new Error(msg || 'assertion failed')
+      return msg
+    }
+
+    var accessors = require('accessors')
+    var attr = accessors.attr
+
+    function Foo () {
+      this._properties = {}
+    }
+
+    accessors(Foo.prototype)
+    attr(Foo.prototype, 'hello', String, 'world')
+    attr(Foo.prototype, 'num', Number, 'but a string')
+
+    var obj = new Foo()
+    var obj2 = new Foo()
+
+    assert('world'===obj.hello())
+    assert(obj===obj.hello('yoyo'))
+    assert('yoyo'===obj.hello())
+    assert('world'===obj2.hello())
+
+    assert(isNaN(obj.num()))
+    assert(obj===obj.num(10))
+    assert(10===obj.num())
+
+    obj = accessors()
+    attr(obj, 'foo', String, 'bar')
+    assert('bar'===obj.foo())
+
+    function CustomValue (v) {
+      this.set(v)
+    }
+
+    CustomValue.prototype.set = function (v) {
+      this.value = 'patched:'+v
+      return this
+    }
+
+    attr(obj, 'custom', function (v) {
+      if (!(this instanceof CustomValue)) {
+        this.__proto__ = CustomValue.prototype
+        CustomValue.call(this, v)
+        return this.value
+      }
+      else {
+        this.set(v)
+        return this.value
+      }
+    }, 'hey')
+
+    assert('patched:hey'===obj.custom())
+    obj.custom('yo')
+    assert('patched:yo'===obj.custom())
+
+    attr(obj, 'incr', function (v) {
+      if (!('i' in this)) {
+        return (this.i = 0)
+      }
+      this.i += v || 1
+      return this.i
+    })
+    assert(0===obj.incr())
+    obj.incr(1)
+    obj.incr(1)
+    assert(2===obj.incr())
+    obj.incr(5)
+    assert(7===obj.incr())
+
+    document.write('all tests pass')
+
+    </script>
+  </body>
+</html>

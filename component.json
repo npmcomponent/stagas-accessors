@@ -1,0 +1,12 @@
+{
+  "name": "accessors",
+  "version": "0.0.1",
+  "description": "create accessor methods",
+  "keywords": ["accessor","getter","setter","object","properties","attributes"],
+  "author": "stagas",
+  "license": "MIT",
+  "dependencies": {
+    "yields/merge": "*"
+  },
+  "scripts": ["index.js"]
+}
