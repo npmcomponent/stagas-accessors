@@ -1,0 +1,17 @@
+{
+  "name": "stagas-accessors",
+  "description": "create accessor methods",
+  "version": "0.0.1",
+  "keywords": [
+    "accessor",
+    "getter",
+    "setter",
+    "object",
+    "properties",
+    "attributes"
+  ],
+  "dependencies": {
+    "yields-merge": "git://github.com/npmcomponent/yields-merge.git"
+  },
+  "license": "MIT"
+}

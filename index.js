@@ -9,7 +9,7 @@
  * Module dependencies.
  */
 
-var merge = require('merge')
+var merge = require('yields-merge')
 
 /**
  * Exports.
